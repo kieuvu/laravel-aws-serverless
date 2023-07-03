@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/test-queue', function () {
+    \Log::info('Dispatching the job in background');
+
+    App\Jobs\TestJob::dispatch("From Router");
+
+    return response()->json([
+        "status" => true
+    ], 200);
+});

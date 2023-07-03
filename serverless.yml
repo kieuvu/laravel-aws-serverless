@@ -7,6 +7,8 @@ provider:
   # Environment variables
   environment:
     APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
+    QUEUE_CONNECTION: sqs
+    SQS_QUEUE: ${construct:jobs.queueUrl}
 
 package:
   # Files and directories to exclude from deployment
@@ -36,6 +38,15 @@ functions:
     #    - schedule:
     #          rate: rate(1 minute)
     #          input: '"schedule:run"'
+
+constructs:
+  jobs:
+    type: queue
+    # This function runs Laravel Queues
+    worker:
+      handler: Bref\LaravelBridge\Queue\QueueHandler
+      runtime: php-81
+      timeout: 60 # seconds
 
 plugins:
   - ./vendor/bref/bref

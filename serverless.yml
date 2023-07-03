@@ -6,6 +6,7 @@ provider:
   region: us-east-1
   # Environment variables
   environment:
+    APP_KEY: "base64:eKAsi7E3c/GDd6FY1EN1BqlZwN0AMgRb6XUeUHVgN7M="
     APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
     QUEUE_CONNECTION: sqs
     SQS_QUEUE: ${construct:jobs.queueUrl}

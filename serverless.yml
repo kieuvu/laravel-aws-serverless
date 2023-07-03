@@ -47,12 +47,6 @@ functions:
     timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
     events:
       - httpApi: "*"
-    assets:
-      "/js/*": public/js
-      "/css/*": public/css
-      "/favicon.ico": public/favicon.ico
-      "/robots.txt": public/robots.txt
-      # add here any file or directory that needs to be served from S3
 
   # This function lets us run artisan commands in Lambda
   artisan:
@@ -73,6 +67,15 @@ constructs:
       handler: Bref\LaravelBridge\Queue\QueueHandler
       runtime: php-81
       timeout: 60 # seconds
+
+  website:
+    type: server-side-website
+    assets:
+      "/js/*": public/js
+      "/css/*": public/css
+      "/favicon.ico": public/favicon.ico
+      "/robots.txt": public/robots.txt
+      # add here any file or directory that needs to be served from S3
 
 plugins:
   - ./vendor/bref/bref

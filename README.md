@@ -33,6 +33,10 @@ php artisan vendor:publish --tag=serverless-config
 serverless plugin install -n serverless-lift
 ```
 
+## Required AWS Permission To Deploy
+
+> Updating...
+
 ## Deploy
 
 1. Config AWS key/secret
@@ -50,4 +54,26 @@ serverless config credentials \
 serverless deploy
 ```
 
-=> output: .serverless/
+output:
+
+```
+endpoints:
+  ANY - https://xxxxxxxxxx.execute-api.xx-xxxx-x.amazonaws.com/dev
+  ANY - https://xxxxxxxxxx.execute-api.xx-xxxx-x.amazonaws.com/dev/{proxy+}
+functions:
+  web: laravel-dev-web (31 MB)
+  artisan: laravel-dev-artisan (31 MB)
+  jobsWorker: laravel-dev-jobsWorker (31 MB)
+jobs: https://sqs.xx-xxxx-x.amazonaws.com/xxxxxxxxxxxx/laravel-dev-jobs
+```
+
+```
+.
+├── .serverless/
+│   ├── cloudformation-template-create-stack.json
+│   ├── cloudformation-template-update-stack.json
+│   ├── laravel.zip
+│   └── serverless-state.json
+├── ...
+└── serverless.yaml
+```

@@ -13,6 +13,7 @@ provider:
     FILESYSTEM_DISK: s3
     FILESYSTEM_DISK_PUBLIC: s3
     AWS_BUCKET: !Ref Storage
+    LOG_CHANNEL: stderr
 
   iam:
     role:

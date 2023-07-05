@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/", function () {
+    $routeCollection = Route::getRoutes();
+
+    foreach ($routeCollection as $value) {
+        $routeArray[] = [
+            "uri"     => $value->uri,
+            "methods" => $value->methods,
+        ];
+    }
+
+    return view("pages.index", compact('routeArray'));
+})->name("index");

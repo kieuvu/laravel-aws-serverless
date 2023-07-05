@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+class Upload
+{
+    public function __invoke(Illuminate\Http\Request $request)
+    {
+        $file     = $request->profileImage;
+        $fileName = (string) Str::orderedUuid()
+            . "-" . Str::random(5)
+            . "." . $file->getClientOriginalExtension();
 
-Route::get('/test-queue', function () {
-    \Log::info('Dispatching the job in background');
+        Storage::disk('s3_public')
+            ->put("images/$fileName", file_get_contents($file));
 
-    App\Jobs\TestJob::dispatch("From Router");
+        return response()->json([
+            "status" => true,
+        ], 200);
+    }
+}
 
-    return response()->json([
-        "status" => true
-    ], 200);
-});
+Route::prefix("file-upload")
+    ->name("file.upload.")
+    ->group(function () {
+        Route::post("/post", Upload::class)->name("post");
+    });
